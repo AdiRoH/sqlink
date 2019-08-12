@@ -7,11 +7,11 @@ struct Array
 {
 	int capacity;
 	int index;
-	int* arr;
+	int** arr;
 };
 
 Array_t* creatArray(int capacity);
-int insert(Array_t* ptr,int Num);
+int insert(Array_t* ptr,int* Num);
 void print(Array_t *ptr);
 void destroyDA(Array_t *ptr);
 #endif
