@@ -1,0 +1,7 @@
+prog: a.o b.o
+	gcc -o prog a.o b.o
+b.o: b.c
+	gcc -c b.c
+a.o: a.c
+	gcc -c a.c
+
