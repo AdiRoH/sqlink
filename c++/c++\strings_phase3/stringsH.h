@@ -41,11 +41,13 @@
 			bool operator<(const string_t& str);
 			bool operator>(const string_t& str);
 
-			int contains(char *str);
+			int contains(const char *str,char* Place);
 
 			char& operator[](size_t index);//better way
 			char operator[](size_t index) const;/* how 2 implement?*/
 			
+			size_t firstIdxContains(const char ch);
+			size_t lastIdxContains(const char ch);
 
 			
 
@@ -63,12 +65,43 @@
 			size_t capacity;
 
 			static bool setCaseFlag(bool flag);
+			static bool caseFlagStat();
+			static size_t setCap(size_t user_cap);
+			static size_t stateCap();
+
 	};
 	std::ostream& operator<<(std::ostream &out, const string_t& str);
 	std::istream& operator>>(std::istream &in, string_t& st);
 
-	
-	
+	inline size_t string_t::lenStr()const
+	{
+		return (size_t)strlen(str1);
+	}
+
+	inline void string_t::convertUpper()
+	{
+		int i=0;
+		for(i=0;i<=strlen(str1);i++)
+		{
+			str1[i]=toupper(str1[i]);
+		}
+			
+	}
+
+	inline void string_t::convertLower()
+	{
+		int i=0;
+		for(i=0;i<=strlen(str1);i++)
+		{
+			str1[i]=tolower(str1[i]);
+		}
+	}
+
+	inline void string_t::printName()
+	{
+		std::cout<<str1;
+	}
+
 #endif
 
 

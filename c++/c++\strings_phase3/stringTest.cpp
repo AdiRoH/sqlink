@@ -60,16 +60,23 @@ int main()
 
 			case 12://prepand with string_t&
 			{
-				/*prepend(st2.str1); how 2 call the function*/
+				prepend(st2); /*how to use??*/
 				break;
 			}
 
 			case 13://catenation operand
 			{
+				prepend(str2);
 				break;
 			}
 
-			case 14://<
+			case 14:
+			{
+				
+				break;
+			}
+
+			case 15://<
 			{
 				if(st1<st2)
 				{
@@ -82,7 +89,7 @@ int main()
 				break;
 			}
 
-			case 15://>
+			case 16://>
 			{
 				if(st1>st2)
 				{
@@ -94,7 +101,7 @@ int main()
 				break;
 			}
 
-			case 16://==
+			case 17://==
 			{
 				if(st1==st2)
 				{
@@ -107,7 +114,7 @@ int main()
 				break;
 			}
 
-			case 17://!=
+			case 18://!=
 			{
 				if(st1!=st2)
 				{
@@ -120,7 +127,7 @@ int main()
 				break;
 			}
 
-			case 18: //>=
+			case 19: //>=
 			{
 				if(st1>=st2)
 				{
@@ -132,7 +139,7 @@ int main()
 				break;
 			}
 
-			case 19: //<=
+			case 20: //<=
 			{
 				if(st1<=st2)
 				{
@@ -145,28 +152,76 @@ int main()
 				break;
 			}
 
-			case 20:
+			
+
+			case 21://find substring in string
 			{
-				contains(str2);
-				break;
+				contains(st2);//how to use?
 			}
 
-			case 21:
+			case 22://subscript operator
 			{
 				size_t index;
 				std::cout<<"insert index\n";
 				std::cin>>index;
-				char ch=st[index];//to complete
+				char ch=str2[index];
 				break;
 			}
 
-			case 22:
+			case 23://is case sensitive?
 			{
+				bool state;
+				state = caseFlagStat();
+				if(state)?std::cout<<"true\n":std::cout<<"false\n";
 				break;
 			}
 
-			case 23:
+			case 24://set case sensitive and return the previous one
 			{
+				bool user_flag,prev_flag;
+				std::cout<<"insert a flag of case sensitive\n";
+				std::cin>>user_flag;
+				prev_flag = setCaseFlag(user_flag);
+				std::cout<<"previous flag was:  "<<user_flag;
+				break;
+			}
+
+			case 25://capacity of object
+			{
+				size_t cap;
+				cap = stateCap();
+				std::cout<<"capacity is : "<<cap;
+				break;
+			}
+
+			case 26://set capacity
+			{
+				size_t user_cap,prev_cap;;
+				std::cout<<"insert a capacity\n";
+				std::cin>>user_cap;
+				prev_cap = setCap(user_cap);
+				std::cout<<"previous capacity is : "<<prev_cap;
+				break;
+			}
+
+			case 27:
+			{
+				size_t idx;
+				char ch;
+				std::cout<<"insert a char\n";
+				std::cin>>ch;
+				idx = firstIdxContains(ch);
+				std::cout<<"the cahr is in index\n"<<idx;
+				break;
+			}
+			case 28:
+			{
+				size_t idx;
+				char ch;
+				std::cout<<"insert a char\n";
+				std::cin>>ch;
+				idx = lastIdxContains(ch);
+				std::cout<<"the cahr is in index\n"<<idx;
 				break;
 			}
 		}
@@ -184,17 +239,25 @@ void printMenu(int* opt)
 	std::cout<<"10: \tconvert string to upper case\n\n";
 	std::cout<<"11: \tprepand with char*\n\n";
 	std::cout<<"12: \tprepand with &\n\n";
-	std::cout<<"13: \tcatenation operator\n\n";
-	std::cout<<"14: \t<\n\n";
-	std::cout<<"15: \t>\n\n";
-	std::cout<<"16: \t==\n\n";
-	std::cout<<"17: \t!=\n\n";
-	std::cout<<"18: \t>=\n\n";
-	std::cout<<"19: \t<=\n\n";
-	std::cout<<"20: \tfind substring in string\n\n";
-	std::cout<<"21: \tsubscript\n\n";
-	std::cout<<"22: \t<<\n\n";
-	std::cout<<"23: \t>>\n\n";
+	std::cout<<"13: \tappend with char\n\n";
+	std::cout<<"14: \tappend with string_t&\n\n";
+	std::cout<<"15: \t<\n\n";
+	std::cout<<"16: \t>\n\n";
+	std::cout<<"17: \t==\n\n";
+	std::cout<<"18: \t!=\n\n";
+	std::cout<<"19: \t>=\n\n";
+	std::cout<<"20: \t<=\n\n";
+	std::cout<<"21: \tfind substring in string\n\n";
+	std::cout<<"22: \tsubscript\n\n";
+	std::cout<<"23: \tis case sensitive or not\n\n";
+	std::cout<<"24: \tset case sensitive state, return previous state\n\n";
+	std::cout<<"25: \tcapacity of objects\n\n";
+	std::cout<<"26: \tcurrent capacity of objects+updating the capacity\n\n";
+	std::cout<<"27: \tindex of first occurrence of some character in strings\n\n";
+	std::cout<<"28: \tindex of last occurrence of some character in strings\n\n";
+	std::cout<<"29: \treturn specific substring\n\n";
+	std::cout<<"30: \tcount number of objects\n\n";
+
 
 	std::cin>>*opt;
 }

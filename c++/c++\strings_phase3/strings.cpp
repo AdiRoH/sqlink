@@ -17,9 +17,7 @@ string_t::string_t()
 string_t::string_t(const char* str)
 {
 	size_t cap;
-	cap=calcCapacity(lenStr());
-	createString((char*)str,cap);
-
+	createString((char*)str,capacity);
 }
 
 string_t::~string_t()
@@ -41,11 +39,6 @@ string_t& string_t::operator=(const string_t& str)
 	return *this;
 }
 
-size_t string_t::lenStr()const
-{
-	return (size_t)lenStr();
-}
-
 size_t calcCapacity(size_t cap)
 {
 	double* rightCap;
@@ -60,6 +53,8 @@ void string_t::setString(const char* str)
 	if(str)
 	{
 		delete[] str1;
+		this->capacity=strlen(str);
+		this->str1=new char[this->capacity];
 		str1=(char*)str;
 	}
 }
@@ -87,12 +82,6 @@ int string_t::cmprStr(const string_t& str)
 	:res>0?1
 	:2*/
 }
-
-void string_t::printName()
-{
-	printf("%s",str1);
-}
-
 
 void string_t::createString(char* str,size_t cap)
 {
@@ -225,31 +214,14 @@ bool string_t::operator<(const string_t& str)
 	return retVal;
 }
 
-int string_t::contains(char *str)
+int string_t::contains(const char *str,char* Place)
 {
 	char* place;
-	place = strstr(str,this->str1);
+	place=new char[1];
+	place = strstr((char*)str,this->str1);
+	Place=place;
 	if(place==NULL) return 0;
 	else return 1;
-}
-
-void string_t::convertUpper()
-{
-	int i=0;
-	for(i=0;i<=strlen(this->str1);i++)
-	{
-		this->str1[i]=toupper(this->str1[i]);
-	}
-		
-}
-
-void string_t::convertLower()
-{
-	int i=0;
-	for(i=0;i<=strlen(this->str1);i++)
-	{
-		this->str1[i]=tolower(str1[i]);
-	}
 }
 
 char& string_t::operator[](size_t index)
@@ -291,4 +263,64 @@ bool setCaseFlag(bool flag)
 bool caseFlagStat()
 {
 	return caseSens;
+}
+
+size_t setCap(size_t user_cap)
+{
+	size_t correctCap,prevCap=this->capacity;
+	correctCap=calcCapacity(user_cap);
+	this->capacity=correctCap;
+	return prevCap;
+}
+
+size_t stateCap()
+{
+	return this->capacity;
+}
+
+size_t firstIdxContains(const char ch)
+{
+	int i=0,idx=-1;
+
+    if(caseFlagStat()==true)
+    {
+       for(i=0;i<this->capacity;i++)
+        {
+            if(toupper(this->str1[i]==toupper(ch)));
+            	idx = i;
+        }  
+    }
+    else
+    {
+       for(i=0;i<capacity;i++)
+        {
+            if(this->str1[i]==ch)
+            	idx = i;
+        }  
+    }
+	return (size_t)idx;
+}
+
+//I didn't use 'contais' because of str1-it shouldn't be saved as a flipped string. 
+size_t lastIdxContains(const char ch)
+{
+	int i,idx=-1;
+    if(caseFlagStat()==true)
+    {
+        for(i=capacity-1;i>=0;i--)
+        {
+            if(toupper(this->str1[i])==toupper(ch))
+            	idx = i;
+        }
+    }
+    else
+    {
+        for(i=capacity-1;i>=0;i--)
+        {
+            if(this->str1[i]==ch)
+            	idx = i;
+        }
+    }
+    
+	return (size_t)idx;
 }
