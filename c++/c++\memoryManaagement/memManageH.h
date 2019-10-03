@@ -10,9 +10,9 @@
 			virtual bool writeFromCurrPose(void* info,unsigned int InfoSize);           			     //write from current position
 			virtual bool writeFromUserPose(void* info,unsigned int InfoSize,size_t pose);           	 //write from user position
 
-			
+			bool setPose(size_t pose);
+			size_t getPose();
 
-			writtenBytes();              		     //how many bytes are written, including: is memory is empty
 		protected:
 			
 		private:
