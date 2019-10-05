@@ -1,49 +1,32 @@
 #include "car_t_H.h"
 #include <string.h>
+#include <string>
 
-const char* car_t::gear="manual";
-long car_t::ID=0;
+using namespace std;
+
+long car_t::m_ID=0;
 
 car_t::car_t()
 {
-	createCar();
-	this->capacity = 1500;
-	this->name = "shevrolet";
-	this->ID++;
+	this->m_capacity = 1500;
+	this->m_gear = manual;
+	this->m_name = "private";
+	this->m_ID++;
 }
 
-car_t::car_t(const unsigned int capCC,const char* carName,const unsigned long carID)
+car_t::car_t(const car_t &old_car) 
 {
-	if(this->capacity==0 || this->name==0 || this->ID==0)
-		createCar();
-	this->capacity = capCC;
-	strcpy(this->name,carName);
-	this->ID = carID;
+	this->m_capacity = old_car.m_capacity;
+	this->m_gear = old_car.m_gear;
+	this->m_name = old_car.m_name;
+	this->m_ID = old_car.m_ID;
 }
 
-void car_t::createCar()
+car_t::car_t(const unsigned int capCC,const string carName,const unsigned long ID,string gearKind)
 {
-	if(this->capacity == 0)
-		this->capacity=new unsigned int;
-	if(this->name == 0)
-		this->name=new char[20];
-	if(this->ID == 0)
-		this->ID=new unsigned long;
+	this->m_capacity = capCC;
+	m_name.assign(carName);
+	this->m_ID = ID;
+	if(gearKind=="Auto") m_gear=Auto; //1=Auto
 }
 
-void car_t::setGear(const char* carGear)
-{
-	this->gear = carGear;
-}
-
-const char* car_t::getGear()
-{
-	return this->gear;
-}
-
-bool operator==(const car_t& car)
-{
-	bool res;
-	(car->capacity==this->capacity)?res = true:res = false;
-	return res;
-}

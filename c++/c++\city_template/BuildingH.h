@@ -8,46 +8,48 @@
 		public:
 			~Build_t();
 			Build_t();
-			Build_t(Build_t& const);
-			&Built_t opertor=(const Built_t& build);
+			Build_t(const Build_t& build);
+			Build_t<idBuild> & operator=(const Build_t& build);
 			void setID(idBuild idB);
-			idBuild getID() const;
+			const idBuild& getID() const;
 
 		private:
-			idBuild id;
+			idBuild m_id;
 	};
-		
-	Bulild_t::~Build_t()
-	{
 
+	template <class idBuild>
+	Build_t<idBuild>::~Build_t(){}
+
+	template <class idBuild>
+	Build_t<idBuild>::Build_t(){}
+
+	template <class idBuild>
+	Build_t<idBuild>::Build_t(const Build_t& build)
+	{
+		m_id=build->m_id;
 	}
 
-	Build_t::Build_t();
+	template <class idBuild>
+	Build_t<idBuild>& Build_t<idBuild>::operator=(const Build_t<idBuild>& build)//must tell the type idBuild
 	{
-
+		if (&build != this)
+		{
+			m_id=build.m_id;
+		}
+		return *this;
 	}
 
+	template <class idBuild>
+	void Build_t<idBuild>::setID(idBuild idB)
+	{
+		m_id=idB;
+	}
 
-Built_t::Build_t(const Build_t&)
-{
-	return 
-}
-
-&Built_t Built_t::operator=(const Built_t& build)
-{
-	build->id=id;
-	return build;
-}
-
-void Built_t::setID(idBuild idB)
-{
-	id=idB;
-}
-
-idBuild Built_t::getID() const
-{
-	return id;
-}
+	template <class idBuild>
+	const idBuild& Build_t<idBuild>::getID() const
+	{
+		return m_id;
+	}
 
 
 #endif

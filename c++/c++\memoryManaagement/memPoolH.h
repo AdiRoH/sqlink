@@ -2,8 +2,8 @@
 #define memPoolH
 
 	#include <vector>
-	#include "memManageH"
-	#include "memPageH"
+	#include "memManageH.h"
+	#include "memPageH.h"
 
 
 	class memPool_t: public memManageH
@@ -14,7 +14,7 @@
 
 			size_t getCurrPose();                                        //get current position in vector
 			bool setCurrPose(size_t pose);                               //set current position in vector
-			bool isPgEmpty();
+			bool isPgEmpty() const;
 			size_t actualPgSize();
 			virtual bool readFromCurrPose(void* info,unsigned int InfoSize);     //read from current page
 			virtual bool readFromUserPose(void* info,unsigned int InfoSize,size_t pose);

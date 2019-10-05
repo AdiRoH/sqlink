@@ -1,89 +1,70 @@
 #include "memManageH.h"
 #include "memPageH.h"
-#include "string.h"
+#include <string.h>
 
-//should I always write a default constructor?- no. we aren't going to solve futural bugs
 
-memPage_t::~memPage_t()
+size_t memPage_t::defSize = 1024;
+
+
+
+void memPage_t::createPage()
 {
-	if(page!=0) delete[]page;
+	if(page = 0)
+	{
+		numOfbytes=0;
+		page=new char[defSize];
+		page[0]='\0';
+	}
 }
 
 memPage_t::memPage_t(size_t size)
 {
-	this->defSize=pow(2, ceil(log(size)/log(2)));
-	numOfbytes = 0;
-	page = new char[defSize];
+	setDefSize(size);
+	createPage();
 }
 
-size_t memPage_t::getCurrPage()
+const size_t& memPage_t::getCurrPage() const
 {
-	return this->page[numOfbytes];
+	return this->numOfbytes;
 }
 
-void memPage_t::setCurrPage(const size_t idx)
+bool memPage_t::setCurrPage(size_t idx)
 {
 	if(idx<=defSize)
 	{
-		this->page[numOfbytes] = idx;
+		this->numOfbytes = idx;
 		return true;
 	}
 	else return false;
 }
 
-bool memPage_t::readFromCurrPose(void* info,unsigned int InfoSize)
+bool memPage_t::readFromCurrPose(const void* info,unsigned int InfoSize)
 {
-	if(info==0) return false;
-	setCurrPage(numOfbytes);
-	memcpy((char*)info, (char*)page, InfoSize);
-	numOfbytes--;
-	return true;
-	
+	return readFromUserPose(info,InfoSize,numOfbytes);	
 }
 
-bool memManage_t::readFromUserPose(void* info,unsigned int InfoSize,size_t pose)
+bool memPage_t::readFromUserPose(const void* info,unsigned int InfoSize,size_t pose)
 {
-	if(info==0) return false;
+	if(info==0||InfoSize<1||pose==0) return false;
 	if(pose>numOfbytes) return false;
-	setCurrPage(pose);
-	memcpy((char*)info, (char*)page, InfoSize);
+	this->setCurrPage(pose);
+	memcpy((char*)info, page, InfoSize);
 	numOfbytes--;
 	return true;
 }
 
-bool memManager_t::writeFromCurrPose(void* info,unsigned int InfoSize)
+bool memPage_t::writeFromCurrPose(const void* info,unsigned int InfoSize)
 {
-	//insert that Info size< free space
-	if(info==0) return false;
-	setCurrPage(numOfbytes);
-	memcpy((char*)page,(char*)info,InfoSize);
+	return this->writeFromUserPose(info,InfoSize,numOfbytes);
+}
+
+bool memPage_t::writeFromUserPose(const void* info,unsigned int InfoSize,size_t pose)
+{
+	if(info==0||InfoSize<1||pose>defSize||(pose+InfoSize)>defSize) return false;
+	this->setCurrPage(pose);
+	memcpy(page,(char*)info,InfoSize);
 	numOfbytes++;
 	return true;
-}
-
-bool memManager_t::writeFromUserPose(void* info,unsigned int InfoSize,size_t pose)
-{
-	//insert that Info size< free space
-	if(info==0||numOfbytes<pose) return false;
-	setCurrPage(pose);
-	memcpy((char*)page,(char*)info,InfoSize);
-	numOfbytes++;
-	return true;
-}
-
-bool isEmpty()
-{
-	(numOfbytes==0) ? return true:return false;
-}
-
-bool isFull() 
-{
-	(numOfbytes==defSize) ? return true:return false;
-}
-
-size_t actualSize()
-{
-	return getCurrPage();
 }
 
 

@@ -1,53 +1,75 @@
 #ifndef car_t_H
 #define car_t_H
+	
+	#include <string>
+	#include <string.h>
+
+	using namespace std; 
 
 	class car_t
 	{
-		public:
-			inline ~car_t();//deleting also static private variable?
-			inline car_t(const car_t &old_car);
-			car_t();
-			car_t(const unsigned int capCC,const char* carName,const unsigned long ID);
-			inline car_t& operator=(const car_t& car);
-			inline void getName(const char* carName);//assignment value- is the value is const?
-			inline bool operator<(const car_t& car);//diffrent between operators of two objects and 2 fields
-			bool operator==(const car_t& car);
-			
+		public:                                                                              //Auto or manual gear
+			inline ~car_t();                                                                  //DTOR
+			car_t();                                                                		  //CTOR
+			car_t(const car_t& old_car);                                                      //copy CTOR		                                                                          
+			car_t(const unsigned int capCC,const string carName,const unsigned long ID,string gearKind);      //CTOR      
+			inline const car_t& operator=(const car_t& car);                                  //assign operator 
+			const string getName() const;
+			inline bool operator<(const car_t& car);
+			inline bool operator==(const car_t& car);
+			typedef enum{manual,Auto}gear;
 
 		private:
-			unsigned int capacity;
-			char* name;
-			const static char* gear;//how to allocate static variable?
-			static long ID;
+			 
+			unsigned int m_capacity;
+			gear m_gear;
+			string m_name;
+			static long m_ID;
+
 			void createCar();
-			static void setGear(const char* carGear);
-			static const char* getGear();
+			inline static void setGear(const string& carGear);
+			inline static string& getGear();
 	};
 
 	inline car_t::~car_t()
 	{
-		ID--;
-		delete[] name;
-	}
-
-	inline car_t::car_t(const car_t &old_car) 
-	{
-		capacity = old_car.capacity;
+		m_ID=0;
 	} 
 
-	inline void car_t::getName(const char* carName)
+	inline const string car_t::getName() const
 	{
-		name = (char*)carName;
+		return m_name;
 	}
 
 	inline bool car_t::operator<(const car_t& car) 
 	{
-		return car.capacity<capacity;
+		return car.m_capacity<m_capacity;
 	}
 
-	inline car_t& car_t::operator=(const car_t& car) 
+	inline const car_t& car_t::operator=(const car_t& car) 
 	{
-	    capacity=car.capacity;
+		if(car.m_capacity != m_capacity)
+	    	m_capacity = car.m_capacity;
+	    return *this;
+	}
+
+	inline void car_t::setGear(const string& carGear)
+	{
+		if(carGear=="Auto")
+			m_gear=Auto; //1=Auto
+	}
+
+	inline string& car_t::getGear() 
+	{
+		return (m_gear==manual)?"manual":"automatic";
+	}
+
+
+	inline bool car_t::operator==(const car_t& car)
+	{
+		bool res;
+		(car.m_name==this->m_name)?res = true:res = false;
+		return res;
 	}
 
 #endif

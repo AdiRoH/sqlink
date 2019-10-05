@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -ansi -pedantic -g
-SRCS = car.cpp
+SRCS = car.cpp test.cpp
 OBJS = $(SRCS:.c=.o)
 MAIN = prog
 

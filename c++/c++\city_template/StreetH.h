@@ -1,7 +1,7 @@
 #ifndef StreetH
 #define StreetH
 
-#include BuildingH.h
+#include "BuildingH.h"
 #include <vector>
 
 	template <class idStreet,class idBuild>
@@ -10,66 +10,71 @@
 	class Street_t
 	{
 		public:
-			~Street_t();
-			Street_t();
-			&Street_t operator=(Street_t&);
-			Street_t(Build_t& const);
-			void setID(idBuild idB);
-			idBuild getID() const;
-			bool AddBuilding2Street(idStreet st,idBuild bld);
-			&build_t getBuilding();
+			~Street_t();                                                                       //DTOR
+			Street_t();                                                                        //def CTOR
+			Street_t<idStreet,idBuild>& operator=(const Street_t& st);                         //assign operator
+			Street_t(const Street_t& st);                                                      //copy CTOR
+			void setID(idStreet idSt);                                                         //setID
+			const idStreet& getID() const;                                                     //getID
+			bool AddBuilding2Street(const Build_t<idBuild>& build);                            //Add building to street
+			Build_t<idBuild>& getBuilding(unsigned int idx);                                  //get building from street
 
 		private:
-			idStreet id;
-			void createBuild();
-			std::vector<build_t<idBuild> > v;
+			idStreet m_id;
+			std::vector<Build_t<idBuild> > v;
 	};
 		
-	street_t::~street_t()
-	{
+	template <class idStreet,class idBuild>
+	Street_t<idStreet,idBuild>::~Street_t(){}
 
+
+	template <class idStreet,class idBuild>
+	Street_t<idStreet,idBuild>::Street_t(){}
+
+
+	template <class idStreet,class idBuild>
+	Street_t<idStreet,idBuild>& Street_t<idStreet,idBuild>::operator=(const Street_t& st)
+	{
+		if(st.m_id!=m_id) 
+			m_id=st.m_id;
+		return *this;
 	}
 
-	street_t::street_t()
-	{
 
+	template <class idStreet,class idBuild>
+	Street_t<idStreet,idBuild>::Street_t(const Street_t& st)
+	{
+		m_id = st->m_id;
 	}
 
-	void street_t::createBuild()
+
+	template <class idStreet,class idBuild>
+	void Street_t<idStreet,idBuild>::setID(idStreet idSt)
 	{
-		
+		m_id = idSt;
 	}
 
-	&Street_t street_t::operator=(Street_t&)
+
+	template <class idStreet,class idBuild>
+	const idStreet& Street_t<idStreet,idBuild>::getID() const
 	{
-		return (Street_t->id==id)//correct
+		return m_id;
 	}
 
-	Street_t::Street_t(const Build_t& build)
+
+	template <class idStreet,class idBuild>
+	bool Street_t<idStreet,idBuild>::AddBuilding2Street(const Build_t<idBuild>& build)
 	{
-		id = build->id;
+		v.push_back(build);
+		return true;
 	}
 
-	void Street_t::setID(idBuild idB)
-	{
-		id = idB;
-	}
 
-	idBuild Street_t::getID() const
+	template <class idStreet,class idBuild>
+	Build_t<idBuild>& Street_t<idStreet,idBuild>::getBuilding(unsigned int idx) 
 	{
-		return id;
-	}
-
-	bool Street_t::AddBuilding2Street(idBuild bld)
-	{
-		build_t build;
-		build->idBuild = bld;
-		myvector.push_back(build);
-	}
-
-	&build_t street_t::getBuilding()
-	{
-		return v.end();
+		if(idx<v.size()) return v[idx];
+		else throw("idx>amount of buildings");
 	}
 
 #endif

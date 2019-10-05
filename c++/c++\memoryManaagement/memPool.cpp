@@ -1,12 +1,13 @@
 #include "memPoolH.h"
 #include "vector"
+#include <string.h>
 
-static size_t pageSize=1024;
+size_t pageSize=1024;
 
 memPool_t::memPool_t()
 {
 	currPage = 0;
-	createPage();
+	this->createPage();
 }
 
 void createPage()
@@ -42,7 +43,7 @@ bool readFromCurrPose(void* info,unsigned int InfoSize)
 {
 	if(info==0) return false;
 	if(InfoSize>currPage) return false;
-	setCurrPose(currPage);
+	this->setCurrPose(currPage);
 	memcpy((char*)info, (char*)v[currPage], InfoSize);
 	currPage--;
 	return true;
@@ -53,13 +54,11 @@ bool readFromUserPose(void* info,unsigned int InfoSize,size_t pose)
 	if(info==0) return false;
 	if(pose>currPage) return false;
 	if(InfoSize>currPage) return false;
-	setCurrPose(pose);
+	this->setCurrPose(pose);
 	memcpy((char*)info, (char*)v[pose], InfoSize);
 	currPage--;
 	return true;
 }
-
-// allocateing new page when the previous is full
 
 bool writeFromCurrPose(void* info,unsigned int InfoSize)
 {
@@ -67,7 +66,7 @@ bool writeFromCurrPose(void* info,unsigned int InfoSize)
 	if(info==0) return false;
 	if(pageSize-currPage>=InfoSize)
 	{
-		setCurrPose(currPage);
+		this->setCurrPose(currPage);
 		memcpy((char*)info, (char*)v[currPage], InfoSize);
 		currPage++;
 	}
@@ -90,7 +89,7 @@ bool writeFromUserPose(void* info,unsigned int InfoSize,size_t pose)
 	if(pose>currPage) return false;
 	if(pageSize-pose>=InfoSize)
 	{
-		setCurrPose(pose);
+		this->setCurrPose(pose);
 		memcpy((char*)info, (char*)v[pose], InfoSize);
 		currPage++;
 	}
@@ -114,9 +113,9 @@ static size_t getPageSize()
 	return this->pageSize;
 }
 
-bool isPgEmpty()
+bool isPgEmpty() const;
 {
-	(v[1]=0) ? return true:return false;
+	if(v[1]==0);
 }
 
 size_t actualPgSize()
