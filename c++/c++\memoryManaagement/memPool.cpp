@@ -2,13 +2,9 @@
 #include "vector"
 #include <string.h>
 
-size_t pageSize=1024;
+size_t memPool_t::pageSize=1024;
 
-memPool_t::memPool_t()
-{
-	currPage = 0;
-	this->createPage();
-}
+
 
 void createPage()
 {
@@ -17,21 +13,11 @@ void createPage()
 	currPage++;
 }
 
-memPool_t::~memPool_t();
-{
-	 int i;
-     for(i=0;i<v.size();i++){
-     	delete v[i];
-}
 
-size_t getCurrPose()
-{
-	return this->currPage;
-}
 
 bool setCurrPose(size_t pose)
 {
-	if(pose<=v.capacity())
+	if(pose<=v.size())
 	{
 		this->currPage = pose;
 		return true;
@@ -39,54 +25,22 @@ bool setCurrPose(size_t pose)
 	else return false;
 }
 
-bool readFromCurrPose(void* info,unsigned int InfoSize)
-{
-	if(info==0) return false;
-	if(InfoSize>currPage) return false;
-	this->setCurrPose(currPage);
-	memcpy((char*)info, (char*)v[currPage], InfoSize);
-	currPage--;
-	return true;
-}
+
 
 bool readFromUserPose(void* info,unsigned int InfoSize,size_t pose)
 {
-	if(info==0) return false;
-	if(pose>currPage) return false;
-	if(InfoSize>currPage) return false;
+	if(info==0||pose>currPage||InfoSize<1) return false;
 	this->setCurrPose(pose);
 	memcpy((char*)info, (char*)v[pose], InfoSize);
 	currPage--;
 	return true;
 }
 
-bool writeFromCurrPose(void* info,unsigned int InfoSize)
-{
-	size_t reminder=0,middlePose=0;
-	if(info==0) return false;
-	if(pageSize-currPage>=InfoSize)
-	{
-		this->setCurrPose(currPage);
-		memcpy((char*)info, (char*)v[currPage], InfoSize);
-		currPage++;
-	}
-	else
-	{
-		reminder=InfoSize-(pageSize-currPage);
-		middlePose=InfoSize-reminder;
-		memcpy((char*)info, (char*)v[currPage], middlePose);
-		memcpy((char*)info, (char*)v[middlePose+1], reminder);
-		currPage++;
-	}
-
-	return true;
-}
 
 bool writeFromUserPose(void* info,unsigned int InfoSize,size_t pose)
 {
 	size_t reminder=0,middlePose=0;
-	if(info==0) return false;
-	if(pose>currPage) return false;
+	if(info==0||pose>currPage||InfoSize<1) return false;
 	if(pageSize-pose>=InfoSize)
 	{
 		this->setCurrPose(pose);
@@ -101,25 +55,7 @@ bool writeFromUserPose(void* info,unsigned int InfoSize,size_t pose)
 		memcpy((char*)info, (char*)v[middlePose+1], reminder);
 		currPage++;
 	}
+	return true;
 }
 
-static void setPageSize(size_t size)
-{
-	this->pageSize=pow(2, ceil(log(size)/log(2)));
-}
-
-static size_t getPageSize()
-{
-	return this->pageSize;
-}
-
-bool isPgEmpty() const;
-{
-	if(v[1]==0);
-}
-
-size_t actualPgSize()
-{
-	return getCurrPose();
-}
 

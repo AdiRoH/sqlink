@@ -17,17 +17,6 @@ void memPage_t::createPage()
 	}
 }
 
-memPage_t::memPage_t(size_t size)
-{
-	setDefSize(size);
-	createPage();
-}
-
-const size_t& memPage_t::getCurrPage() const
-{
-	return this->numOfbytes;
-}
-
 bool memPage_t::setCurrPage(size_t idx)
 {
 	if(idx<=defSize)
@@ -38,10 +27,7 @@ bool memPage_t::setCurrPage(size_t idx)
 	else return false;
 }
 
-bool memPage_t::readFromCurrPose(const void* info,unsigned int InfoSize)
-{
-	return readFromUserPose(info,InfoSize,numOfbytes);	
-}
+
 
 bool memPage_t::readFromUserPose(const void* info,unsigned int InfoSize,size_t pose)
 {
@@ -53,10 +39,7 @@ bool memPage_t::readFromUserPose(const void* info,unsigned int InfoSize,size_t p
 	return true;
 }
 
-bool memPage_t::writeFromCurrPose(const void* info,unsigned int InfoSize)
-{
-	return this->writeFromUserPose(info,InfoSize,numOfbytes);
-}
+
 
 bool memPage_t::writeFromUserPose(const void* info,unsigned int InfoSize,size_t pose)
 {

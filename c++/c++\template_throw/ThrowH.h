@@ -12,7 +12,7 @@
 	{
 		public:
 			~TException_t(){}
-			TException_t(string mes,string fileN,int lineNumber,TID VarThrow)
+			TException_t(string& mes,string& fileN,int& lineNumber,TID& VarThrow):m_varThrow(varThrow)
 			{
 				mes = throwMessage;
 				fileName = fileN;
@@ -28,17 +28,7 @@
 				Texcp.varThrow = varThrow;
 			};
 
-			TException_t<TID>& operator=(TException_t<TID>& Texcp)
-			{
-				if(Texcp->throwMessage!=throwMessage || Texcp->fileName!=fileName || Texcp->lineNum!=lineNum || Texcp!=varThrow)
-				{
-					throwMessage = Texcp->throwMessage;
-					fileName = Texcp->fileName;
-					lineNum = Texcp->lineNum;
-					varThrow = Texcp->varThrow;
-				}
-				return *this;
-			};
+			
 
 			const string& getMessage() const{return throwMessage;};
 			const string& getFileName() const{return fileName;};
@@ -51,10 +41,22 @@
 			void setVarThrow(TID VarThrow){varThrow = VarThrow;};
 
 		private:
-			string throwMessage;
-			string fileName;
-			int lineNum;
-			TID varThrow;
+			string m_throwMessage;
+			string m_fileName;
+			int m_lineNum;
+			TID& m_varThrow;
+
+			TException_t<TID>& operator=(TException_t<TID>& Texcp)
+			{
+				if(Texcp->throwMessage!=throwMessage || Texcp->fileName!=fileName || Texcp->lineNum!=lineNum || Texcp!=varThrow)
+				{
+					throwMessage = Texcp->throwMessage;
+					fileName = Texcp->fileName;
+					lineNum = Texcp->lineNum;
+					varThrow = Texcp->varThrow;
+				}
+				return *this;
+			};
 
 	};
 

@@ -8,7 +8,7 @@ int main()
 	{
     	func();
 
-	}catch(TException_t<float> & Texc){
+	}catch(TException_t<float> Texc){
 
 		Texc.setMessage("float was thrown");
 		Texc.setFileName("FILE.txt");
@@ -27,6 +27,6 @@ int main()
 void func(){
 	string str(__FILE__);
     float i=5;
-    TException_t<float> except("float was thrown",str,i,__LINE__);
-    throw except;
+    
+    throw TException_t<float> ("float was thrown",str,i,__LINE__);
 }

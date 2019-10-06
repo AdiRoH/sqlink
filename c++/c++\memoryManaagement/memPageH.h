@@ -14,13 +14,13 @@
 			/*memPage_t(const memPage_t& memP);*/                                       //copy CTOR is forbidden
 			const memPage_t& operator=(const memPage_t&);                               //= operator
 
-			memPage_t(size_t size);                                                     //CTOR
+			inline memPage_t(size_t size);                                                     //CTOR
 
-			const size_t& getCurrPage() const;                                                          //get current position
+			inline const size_t getCurrPage() const;                                                          //get current position
 			bool setCurrPage(size_t idx);                                            //set current position
-			virtual bool readFromCurrPose(const void* info,unsigned int InfoSize);               //read from current position
+			inline virtual bool readFromCurrPose(const void* info,unsigned int InfoSize);               //read from current position
 			virtual bool readFromUserPose(const void* info,unsigned int InfoSize,size_t pose);   //read from user position
-			virtual bool writeFromCurrPose(const void* info,unsigned int InfoSize);              //write from current position 
+			inline virtual bool writeFromCurrPose(const void* info,unsigned int InfoSize);              //write from current position 
 			virtual bool writeFromUserPose(const void* info,unsigned int InfoSize,size_t pose);  //write from user position
 			inline bool isEmpty() const;                                                                //is page is empty?
 			inline bool isFull() const;                                                                 //is page is full?
@@ -32,43 +32,64 @@
 			char* page;   
 			void createPage() ;                                                                 //pointer to page (char because of bytes type)
 			static void setDefSize(size_t defS);                                                                                      
-			static size_t& getDefSize();
+			static size_t getDefSize();
 	};
 
 
-inline memPage_t::~memPage_t()
-{
-	if(page!=0) delete[]page;
-}
+	inline memPage_t::~memPage_t()
+	{
+		if(page!=0) delete[]page;
+	}
 
-inline memPage_t::memPage_t()
-{
-	createPage();
-}
+	inline memPage_t::memPage_t()
+	{
+		createPage();
+	}
 
-inline bool memPage_t::isEmpty() const
-{
-	return (numOfbytes==0);
-}
+	inline memPage_t::memPage_t(size_t size)
+	{
+		setDefSize(size);
+		createPage();
+	}
 
-inline bool memPage_t::isFull() const 
-{
-	return (numOfbytes==defSize);
-}
+	inline const size_t memPage_t::getCurrPage() const
+	{
+		return this->numOfbytes;
+	}
 
-inline const size_t& memPage_t::actualSize() const
-{
-	return getCurrPage();
-}
+	inline bool memPage_t::isEmpty() const
+	{
+		return (numOfbytes==0);
+	}
 
-inline void memPage_t::setDefSize(size_t defS)  
-{
-	defSize = pow(2, ceil(log(defS)/log(2)));
-}   
+	inline bool memPage_t::isFull() const 
+	{
+		return (numOfbytes==defSize);
+	}
 
-inline size_t& memPage_t::getDefSize() 
-{
-	return defSize;
-}
+	inline const size_t& memPage_t::actualSize() const
+	{
+		return getCurrPage();
+	}
+
+	inline void memPage_t::setDefSize(size_t defS)  
+	{
+		defSize = pow(2, ceil(log(defS)/log(2)));
+	}   
+
+	inline size_t memPage_t::getDefSize() 
+	{
+		return defSize;
+	}
+
+	inline bool memPage_t::readFromCurrPose(const void* info,unsigned int InfoSize)
+	{
+		return readFromUserPose(info,InfoSize,numOfbytes);	
+	}
+
+	inline bool memPage_t::writeFromCurrPose(const void* info,unsigned int InfoSize)
+	{
+		return this->writeFromUserPose(info,InfoSize,numOfbytes);
+	}
 
 #endif
