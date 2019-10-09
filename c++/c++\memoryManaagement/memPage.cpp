@@ -51,5 +51,13 @@ bool memPage_t::writeFromUserPose(const void* info,unsigned int InfoSize,size_t 
 }
 
 
+bool memPage_t::readFromCurrPose(const void* info,unsigned int InfoSize)
+{
+	return readFromUserPose(info,InfoSize,numOfbytes);	
+}
 
+bool memPage_t::writeFromCurrPose(const void* info,unsigned int InfoSize)
+{
+	return this->writeFromUserPose(info,InfoSize,numOfbytes);
+}
 

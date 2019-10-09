@@ -18,10 +18,10 @@
 			bool setCurrPose(size_t pose);                               //set current position in vector
 			inline bool isPgEmpty() const;
 			inline size_t actualPgSize() const;
-			virtual inline bool readFromCurrPose(const void* info,unsigned int InfoSize);     //read from current page
+			virtual bool readFromCurrPose(const void* info,unsigned int InfoSize);     //read from current page
 			virtual bool readFromUserPose(const void* info,unsigned int InfoSize,size_t pose);
-			virtual inline bool writeFromCurrPose(const void* info,unsigned int InfoSize);
-			virtual bool writeFromUserPose(const void* info,unsigned int InfoSize,size_t pose);
+			virtual bool writeFromCurrPose(const void* info,unsigned int InfoSize);
+			bool writeFromUserPose(const void* info,unsigned int InfoSize,size_t pose);
 
 		private:
 			vector<Page_t*> v;
@@ -70,14 +70,6 @@
 		return getCurrPose();
 	}
 
-	inline bool readFromCurrPose(void* info,unsigned int InfoSize)
-	{
-		return readFromUserPose(info,InfoSize,currPage)
-	}
-
-	inline bool writeFromCurrPose(void* info,unsigned int InfoSize)
-	{
-		return writeFromUserPose(info,InfoSize,currPage)
-	}
+	
 
 #endif

@@ -18,9 +18,9 @@
 
 			inline const size_t getCurrPage() const;                                                          //get current position
 			bool setCurrPage(size_t idx);                                            //set current position
-			inline virtual bool readFromCurrPose(const void* info,unsigned int InfoSize);               //read from current position
+			virtual bool readFromCurrPose(const void* info,unsigned int InfoSize);               //read from current position
 			virtual bool readFromUserPose(const void* info,unsigned int InfoSize,size_t pose);   //read from user position
-			inline virtual bool writeFromCurrPose(const void* info,unsigned int InfoSize);              //write from current position 
+			virtual bool writeFromCurrPose(const void* info,unsigned int InfoSize);              //write from current position 
 			virtual bool writeFromUserPose(const void* info,unsigned int InfoSize,size_t pose);  //write from user position
 			inline bool isEmpty() const;                                                                //is page is empty?
 			inline bool isFull() const;                                                                 //is page is full?
@@ -82,14 +82,6 @@
 		return defSize;
 	}
 
-	inline bool memPage_t::readFromCurrPose(const void* info,unsigned int InfoSize)
-	{
-		return readFromUserPose(info,InfoSize,numOfbytes);	
-	}
 
-	inline bool memPage_t::writeFromCurrPose(const void* info,unsigned int InfoSize)
-	{
-		return this->writeFromUserPose(info,InfoSize,numOfbytes);
-	}
 
 #endif

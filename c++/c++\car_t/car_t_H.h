@@ -17,7 +17,7 @@
 			const string getName() const;
 			inline bool operator<(const car_t& car);
 			inline bool operator==(const car_t& car);
-			typedef enum{manual,Auto}gear;
+			enum gear{manual,Auto};
 
 		private:
 			 

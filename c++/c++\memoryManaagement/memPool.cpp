@@ -58,4 +58,12 @@ bool writeFromUserPose(void* info,unsigned int InfoSize,size_t pose)
 	return true;
 }
 
+bool readFromCurrPose(void* info,unsigned int InfoSize)
+{
+	return readFromUserPose(info,InfoSize,currPage)
+}
 
+bool writeFromCurrPose(void* info,unsigned int InfoSize)
+{
+	return writeFromUserPose(info,InfoSize,currPage)
+}

@@ -12,48 +12,48 @@
 	{
 		public:
 			~TException_t(){}
-			TException_t(string& mes,string& fileN,int& lineNumber,TID& VarThrow):m_varThrow(varThrow)
+			TException_t(string mes, string fileN,  int lineNumber, TID VarThrow)
 			{
-				mes = throwMessage;
-				fileName = fileN;
-				lineNum = lineNumber;
-				varThrow = VarThrow;
-			};
+				m_throwMessage=mes ;
+				m_fileName = fileN;
+				m_lineNum = lineNumber;
+				m_varThrow = VarThrow;
+			}
 
 			TException_t(TException_t<TID>& Texcp)
 			{
-				Texcp.throwMessage = throwMessage;
-				Texcp.fileName = fileName;
-				Texcp.lineNum = lineNum;
-				Texcp.varThrow = varThrow;
-			};
+				Texcp.m_throwMessage = m_throwMessage;
+				Texcp.m_fileName = m_fileName;
+				Texcp.m_lineNum = m_lineNum;
+				Texcp.m_varThrow = m_varThrow;
+			}  
 
 			
 
-			const string& getMessage() const{return throwMessage;};
-			const string& getFileName() const{return fileName;};
-			const int& getLineNum() const{return lineNum;};
-			const TID& getVarThrow() const{return varThrow;};
+			const string& getMessage() const{return m_throwMessage;};
+			const string& getFileName() const{return m_fileName;};
+			const int& getLineNum() const{return m_lineNum;};
+			const TID& getVarThrow() const{return m_varThrow;};
 
-			void setMessage(string throwMes){throwMessage = throwMes;};
-			void setFileName(string fileN){fileName = fileN;};
-			void setlineNum(int nLine){lineNum = nLine;};
-			void setVarThrow(TID VarThrow){varThrow = VarThrow;};
+			void setMessage(string throwMes){m_throwMessage = throwMes;};
+			void setFileName(string fileN){m_fileName = fileN;};
+			void setlineNum(int nLine){m_lineNum = nLine;};
+			void setVarThrow(TID VarThrow){m_varThrow = VarThrow;};
 
 		private:
 			string m_throwMessage;
 			string m_fileName;
 			int m_lineNum;
-			TID& m_varThrow;
+			TID m_varThrow;
 
 			TException_t<TID>& operator=(TException_t<TID>& Texcp)
 			{
-				if(Texcp->throwMessage!=throwMessage || Texcp->fileName!=fileName || Texcp->lineNum!=lineNum || Texcp!=varThrow)
+				if(Texcp->m_throwMessage!=m_throwMessage || Texcp->m_fileName!=m_fileName || Texcp->m_lineNum!=m_lineNum || Texcp!=m_varThrow)
 				{
-					throwMessage = Texcp->throwMessage;
-					fileName = Texcp->fileName;
-					lineNum = Texcp->lineNum;
-					varThrow = Texcp->varThrow;
+					m_throwMessage = Texcp->m_throwMessage;
+					m_fileName = Texcp->m_fileName;
+					m_lineNum = Texcp->m_lineNum;
+					m_varThrow = Texcp->m_varThrow;
 				}
 				return *this;
 			};
