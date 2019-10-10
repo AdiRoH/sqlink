@@ -12,11 +12,11 @@ int main()
 	char el[]="Adi";
 	float f1=3.14;
 	float* fPtr;
-	fPtr* = f1; 
+	fPtr = &f1; 
 	
 
 	cout<<"Does string Empty?"<<str.isEmpty()<<"\n";
-	new str[6];
+	str = new char[6];
 	for(i=0;i<6;i++)
 	{
 		str.insertElemEnd(el);
@@ -25,7 +25,8 @@ int main()
 
 
 	cout<<"Does list Empty?"<<lst.isEmpty()<<"\n";	
-	new lst[5];
+	lst = new list[5];
+/*
 	for(i=0;i<5;i++)
 	{
 		lst.insertElemEnd(el);
@@ -35,3 +36,4 @@ int main()
 
 	return 1;
 }
+*/
