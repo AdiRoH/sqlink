@@ -1,27 +1,38 @@
 #include "AD_H.h"
 #include <map>
 
-bool AD_t::insertMeet(float begin,float end,string subject)
+bool AD_t::insertMeet(const float& begin,const float& end,const string& subject)
 {
 	Meet_t* meet=new Meet_t;
+	meetsType::iterator it = m_meets.begin();
+	Meet_t* m=findMeet(begin);
+	if(m!=NULL||end<=begin) return false;
+	if(m_meets.empty()) 
+	{
+		insertInfoMeet(it,begin,end,subject,meet);
+		return true;	
+	}
 	if(m_meets.size()==1)
 	{
-		if(m_meets.begin()->first!=begin) 
+		if(m_meets.begin()->first<begin) 
 		{
-			insertInfoMeet(begin,end,subject,meet);
-			this->m_meets.erase(this->m_meets.begin());
+			insertInfoMeet((++it),begin,end,subject,meet);
 			return true;	
+		}
+		else
+		{
+			insertInfoMeet(it,begin,end,subject,meet);
+			return true;
 		}
 	}
 
 	else
 	{
-		meetsType::iterator it = m_meets.begin();
 	    for (it = m_meets.begin(); it!=(m_meets.end()); ++it) 
 	    {
 	     	if(it->second->getEnd()<begin && end<(++it)->first)
 			{
-				insertInfoMeet(begin,end,subject,meet);
+				insertInfoMeet(it,begin,end,subject,meet);
 				return true;
 			}	
 	    } 
@@ -30,16 +41,38 @@ bool AD_t::insertMeet(float begin,float end,string subject)
 	return false;
 }
 
-void AD_t::insertInfoMeet(float begin,float end,string subject,Meet_t* meet)
+AD_t::AD_t(const AD_t& ad)
+{
+	meetsType::const_iterator it;
+	for(it=ad.m_meets.begin();it!=ad.m_meets.end();it++)
+	{
+		Meet_t* newMeet = new Meet_t(*(it->second));
+		this->m_meets.insert(make_pair(newMeet->getBegin(),newMeet));
+	}
+}
+
+const AD_t& AD_t::operator=(const AD_t& ad)
+{
+	if(&ad==this) return *this;
+	meetsType::const_iterator it;
+	for(it=ad.m_meets.begin();it!=ad.m_meets.end();it++)
+	{
+		Meet_t* newMeet = new Meet_t(*(it->second));
+		this->m_meets.insert(make_pair(newMeet->getBegin(),newMeet));
+	}
+	return *this;
+}
+
+void AD_t::insertInfoMeet(meetsType::iterator it,const float& begin,const float& end,const string& subject,Meet_t* meet)
 {
 	if(!meet) return;
 	meet->setBegin(begin);
 	meet->setEnd(end);
 	meet->setSubject(subject);
-	this->m_meets.insert(make_pair(begin,meet));
+	this->m_meets.insert(it,make_pair(begin,meet));
 }
 
-bool AD_t::remove(float begin)
+bool AD_t::remove(const float& begin)
 {
 	if(findMeet(begin))
 	{
@@ -49,19 +82,24 @@ bool AD_t::remove(float begin)
 	return false;
 }
 
-bool AD_t::findMeet(float begin)
+Meet_t* AD_t::findMeet(const float& begin) const
 {
-	meetsType::iterator it;
+	if(m_meets.empty()) return NULL;
+	else if(m_meets.size()==1) return (this->m_meets.begin()->second);
+	meetsType::const_iterator it;
 	it=this->m_meets.find(begin);
-	return(it==this->m_meets.end())?false:true;
+	return(it==this->m_meets.end())?NULL:(it->second);
 }
 
-void AD_t::clearAD()
+void AD_t::clearAD()//should I use .clear()?
 {
 	meetsType::iterator it;
-	for(it=this->m_meets.begin();it!=this->m_meets.end();++it)
+	if(!m_meets.empty())
 	{
-		delete it->second;
-		m_meets.erase(it);
-	}
+		for(it=this->m_meets.begin();it!=this->m_meets.end();++it)
+		{
+			delete it->second;
+			//m_meets.erase(it);
+		}
+	}	
 }

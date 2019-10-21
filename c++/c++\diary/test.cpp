@@ -11,6 +11,7 @@ int main()
 {
 	int opt;
 	float begin,end;
+	Meet_t* meetP;
 	string subject;
 	AD_t AD;
 
@@ -23,13 +24,13 @@ int main()
 		{
 			case 1:
 			{
-				cout<<"insert begin time!\n";
+				cout<<"insert a begin hour!\n";
 				cin>>begin;
-				cout<<"insert end time\n";
+				cout<<"insert end hour\n";
 				cin>>end;
-				cout<<"insert subject of meeting\n";
+				cout<<"insert a subject of meeting\n";
 				cin>>subject;
-				if(!AD.insertMeet(begin,end,subject))
+				if(AD.insertMeet(begin,end,subject)==false)
 					cout<<"Error! meeting wasn't insert\n";
 				break;
 			}
@@ -37,7 +38,14 @@ int main()
 			{
 				cout<<"insert begin time to find appointment";
 				cin>>begin;
-				(AD.findMeet(begin))?cout<<"meeting is found!\n":cout<<"meeting isn't fount\n";
+				meetP = AD.findMeet(begin);
+				if(meetP==0) cout<<"meeting wasn't found\n";
+				else
+				{
+					cout<<"begin hour: "<<meetP->getBegin()<<endl;
+					cout<<"end hour: "<<meetP->getEnd()<<endl;
+					cout<<"subject hour: "<<meetP->getSubject()<<endl;
+				}
 				break;
 			}
 			case 3:

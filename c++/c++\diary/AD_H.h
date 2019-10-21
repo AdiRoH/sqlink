@@ -8,22 +8,20 @@
 	class AD_t
 	{
 	public:
-		AD_t()
-		{
-			Meet_t* meet = new Meet_t;
-			m_meets.insert(make_pair(NULL,meet)); 
-		}
+		~AD_t(){clearAD();}
 
-		~AD_t(){m_meets.clear();}
-		bool insertMeet(float begin,float end,string subject);
-		bool remove(float begin);
-		bool findMeet(float begin);
+		AD_t(){}
+		AD_t(const AD_t& ad);
+		const AD_t& operator=(const AD_t& ad);
+		bool insertMeet(const float& begin,const float& end,const string& subject);
+		bool remove(const float& begin);
+		Meet_t* findMeet(const float& begin) const;
 		void clearAD();
 
 	private:
 		typedef map<float,Meet_t*> meetsType;
 		meetsType m_meets;
-		void insertInfoMeet(float begin,float end,string subject,Meet_t* meet);
+		void insertInfoMeet(meetsType::iterator it,const float& begin,const float& end,const string& subject,Meet_t* meet);
 	};
 
 #endif
