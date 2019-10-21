@@ -10,7 +10,7 @@ all:$(MAIN)
 	@echo "executed"
 
 $(MAIN):$(OBJS)
-	$(cc) $(FLAGS) -o $(MAIN) $(OBJS)
+	$(CC) $(FLAGS) -o $(MAIN) $(OBJS)
 
 .c.o:
 	$(CC) $(FLAGS) -c $< -o $@
