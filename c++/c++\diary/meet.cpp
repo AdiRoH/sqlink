@@ -22,19 +22,3 @@ bool Meet_t::setEnd(const float& end)
 	else return false;
 }
 
-/*
-Meet_t& Meet_t::operator=(const Meet_t& meet)
-{
-	this->m_begin = meet.getBegin();
-	this->m_end = meet.getEnd();
-	this->m_subject = meet.getSubject();
-	return *this;
-}
-
-Meet_t::Meet_t(const Meet_t& meet)
-{
-	this->m_begin = meet.getBegin();
-	this->m_end = meet.getEnd();
-	this->m_subject = meet.getSubject();
-}
-*/

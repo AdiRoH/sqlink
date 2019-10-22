@@ -4,9 +4,9 @@
 bool AD_t::insertMeet(const float& begin,const float& end,const string& subject)
 {
 	Meet_t* meet=new Meet_t;
-	meetsType::iterator it = m_meets.begin();
+	it = m_meets.begin();
 	Meet_t* m=findMeet(begin);
-	if(m!=NULL||end<=begin) return false;
+	
 	if(m_meets.empty()) 
 	{
 		insertInfoMeet(it,begin,end,subject,meet);
@@ -38,9 +38,11 @@ bool AD_t::insertMeet(const float& begin,const float& end,const string& subject)
 	    } 
 	      
 	}
+	delete meet;
 	return false;
 }
 
+/*
 AD_t::AD_t(const AD_t& ad)
 {
 	meetsType::const_iterator it;
@@ -62,6 +64,7 @@ const AD_t& AD_t::operator=(const AD_t& ad)
 	}
 	return *this;
 }
+*/
 
 void AD_t::insertInfoMeet(meetsType::iterator it,const float& begin,const float& end,const string& subject,Meet_t* meet)
 {
@@ -86,20 +89,19 @@ Meet_t* AD_t::findMeet(const float& begin) const
 {
 	if(m_meets.empty()) return NULL;
 	else if(m_meets.size()==1) return (this->m_meets.begin()->second);
-	meetsType::const_iterator it;
 	it=this->m_meets.find(begin);
 	return(it==this->m_meets.end())?NULL:(it->second);
 }
 
 void AD_t::clearAD()//should I use .clear()?
 {
-	meetsType::iterator it;
+	it=this->m_meets.begin();
 	if(!m_meets.empty())
 	{
 		for(it=this->m_meets.begin();it!=this->m_meets.end();++it)
 		{
 			delete it->second;
-			//m_meets.erase(it);
+			m_meets.clear();
 		}
 	}	
 }

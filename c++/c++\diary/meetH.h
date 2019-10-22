@@ -17,17 +17,20 @@
 		void setSubject(const string& subject){m_subject=subject;}
 
 	private:
-		/*
-		Meet_t& operator=(const Meet_t& meet);	
-		Meet_t(const Meet_t& meet);
-		*/
+		//just declaration 
+		Meet_t& operator=(const Meet_t& meet){};	
+		Meet_t(const Meet_t& meet){};
+		
 	
 
 		float m_begin;
 		float m_end;
 		string m_subject;
-		bool isValidHour(const float& hour){return (hour<0||hour>24)?false:true;} 
-		
+		bool isValidHour(const float& hour){return (hour<0||hour>24||end<begin)?false:true;} 
+		//insert here check end>begin
+		//insert calling to is valid in meetingH
 	};
 
+//string has DTOR
+//Yosi doesn't allow throw in CTOR
 #endif
