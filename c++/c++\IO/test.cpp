@@ -16,7 +16,8 @@ int main()
 	cin>>fileName;
 	cout<<"insert mode"<<endl;
 	cin>>mode;	
-	asciiIO_t asc(fileName,mode);
+	virtIO_t* asc=new asciiIO_t(fileName,mode); 
+
 
 	while(1)
 	{
@@ -27,14 +28,14 @@ int main()
 			case 1:
 			{
 				cout<<"the path is: "<<endl;
-				cout<<asc.getPath();
+				cout<<asc->getPath();
 				break;
 				break;
 			}
 			case 2:
 			{
 				cout<<"The access is: "<<endl;
-				cout<<asc.getAccess();
+				cout<<asc->getAccess();
 				break;
 			}
 		}
