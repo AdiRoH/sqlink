@@ -2,33 +2,73 @@
 #define virtIO_H
 
 	#include <string>
+	#include <stdio.h>
+	#include <cstring>
 	using namespace std;
 
-	enum status{ok_e,cant_open_file_e,bad_access_e,writeErr_e,readErr_e,no_file_open_e};
 
 
 	class virtIO_t
 	{
 	public:
-		virtual ~virtIO_t()=0;
-		virtIO_t(){};
-		virtIO_t(const string& name, const char& mode){};
-		virtual void open()=0;
-		virtual void close()=0;
-		virtual const string& getAccess()const=0;
-		virtual const string& getPath()const=0;
-		virtual long lengthOfFile()const=0;
-		virtual void setPose(const long& ps)=0;
-		virtual const long& getPose()const=0;
-		virtual const status& getStatus()const=0;
-		virtual void setStatus(const status& st)=0;
+		//should be public
+		enum status{ok_e,cant_open_file_e,bad_access_e,writeErr_e,readErr_e};
+
+		virtual ~virtIO_t(){fclose(m_fp);};
+		virtIO_t(){this->m_fp=NULL;this->m_buff=NULL;}
+		virtIO_t(const string& name, const char* mode);
+
+
+
+		const string& getAccess()const {return this->m_mode;}
+		const string& getPath()const {return this->m_name;}
+		const long& getPose()const {return this->m_pose;}
+		const status& getStatus()const {return this->m_state;}
+		void setStatus(const status& st){this->m_state = st;}
+		void open();
+		long lengthOfFile()const;
+
+		void close()
+		{
+			fclose(this->m_fp);
+			m_state = bad_access_e;
+		}
+		
+		void setPose(const long& ps)
+		{
+			m_pose = ps;
+			fseek(m_fp,m_pose,SEEK_SET);
+		}
+	
 		virtual virtIO_t& operator<<(int nBytes)=0;
 		virtual virtIO_t& operator>>(int& nBytes)=0;
 		virtual virtIO_t& operator<<(float nBytes)=0;
 		virtual virtIO_t& operator>>(float& nBytes)=0;
+
+
+
+	
+	protected:
+		FILE* m_fp;
+		status m_state;
+		string m_name;
+		string m_mode;
+		long m_pose;
+		void* m_buff;
+
+		bool IsStatus4Write(string mode)
+		{
+			return(mode!="w"||mode!="w+")?false:true;
+		}
+
+		bool IsStatus4Read(string mode)
+		{
+			return(mode!="r"||mode!="r+")?false:true;
+		}
+
 	private:
-		//copyCTOR;
-		//assign operator
+		virtIO_t(const virtIO_t& vt);
+		virtIO_t& operator=(const virtIO_t& vt);
 	};
 
 #endif
