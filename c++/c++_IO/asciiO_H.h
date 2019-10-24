@@ -19,10 +19,10 @@
 		virtual asciiIO_t& operator>>(int& nBytes) {return scanI(nBytes,"%d");}
 		virtual asciiIO_t& operator<<(float nBytes) {return printI(nBytes,"%f");}
 		virtual asciiIO_t& operator>>(float& nBytes){return scanI(nBytes,"%f");}
-		virtual asciiIO_t& operator<<(long nBytes){return printI(nBytes,"%l");}
-		virtual asciiIO_t& operator>>(long& nBytes){return scanI(nBytes,"%l");}//%l
-		virtual asciiIO_t& operator<<(short nBytes){return printI(nBytes,"%h");}
-		virtual asciiIO_t& operator>>(short& nBytes){return scanI(nBytes,"%h");}//%h
+		virtual asciiIO_t& operator<<(long nBytes){return printI(nBytes,"%u");}
+		virtual asciiIO_t& operator>>(long& nBytes){return scanI(nBytes,"%u");}//%l
+		virtual asciiIO_t& operator<<(short nBytes){return printI(nBytes,"%d");}
+		virtual asciiIO_t& operator>>(short& nBytes){return scanI(nBytes,"%d");}//%h
 		virtual asciiIO_t& operator<<(char nBytes){return printI(nBytes,"%c");}
 		virtual asciiIO_t& operator>>(char& nBytes){return scanI(nBytes,"%c");}//%c
 		virtual asciiIO_t& operator<<(double nBytes){return printI(nBytes,"%lf");}

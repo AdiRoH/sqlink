@@ -44,6 +44,22 @@
 		virtual virtIO_t& operator>>(int& nBytes)=0;
 		virtual virtIO_t& operator<<(float nBytes)=0;
 		virtual virtIO_t& operator>>(float& nBytes)=0;
+		virtual virtIO_t& operator<<(long nBytes)=0;
+		virtual virtIO_t& operator>>(long& nBytes)=0;
+		virtual virtIO_t& operator<<(short nBytes)=0;
+		virtual virtIO_t& operator>>(short& nBytes)=0;
+		virtual virtIO_t& operator<<(char nBytes)=0;
+		virtual virtIO_t& operator>>(char& nBytes)=0;
+		virtual virtIO_t& operator<<(double nBytes)=0;
+		virtual virtIO_t& operator>>(double& nBytes)=0;
+		virtual virtIO_t& operator<<(unsigned int nBytes)=0;
+		virtual virtIO_t& operator>>(unsigned int& nBytes)=0;
+		virtual virtIO_t& operator<<(unsigned long nBytes)=0;
+		virtual virtIO_t& operator>>(unsigned long& nBytes)=0;
+		virtual virtIO_t& operator<<(unsigned short nBytes)=0;
+		virtual virtIO_t& operator>>(unsigned short& nBytes)=0;
+		virtual virtIO_t& operator<<(unsigned char nBytes)=0;
+		virtual virtIO_t& operator>>(unsigned char& nBytes)=0;
 
 
 
