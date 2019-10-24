@@ -14,7 +14,8 @@
 		//should be public
 		enum status{ok_e,cant_open_file_e,bad_access_e,writeErr_e,readErr_e};
 
-		virtual ~virtIO_t(){fclose(m_fp);};
+		virtual ~virtIO_t(){fclose(m_fp);}; 
+		//DTOr of base should include fclose. only its contain and not the DTOR of derive
 		virtIO_t(){this->m_fp=NULL;this->m_buff=NULL;}
 		virtIO_t(const string& name, const char* mode);
 
@@ -74,7 +75,7 @@
 
 		bool IsStatus4Write(string mode)
 		{
-			return(!strcmp(mode.c_str(),"w")||!strcmp(mode.c_str(),"w+"))?false:true;
+			return(!strcmp(mode.c_str(),"w")||!strcmp(mode.c_str(),"w+"))?false:true;//or 'r+'
 		}
 
 		bool IsStatus4Read(string mode)

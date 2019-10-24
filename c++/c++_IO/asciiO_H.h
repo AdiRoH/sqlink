@@ -6,15 +6,19 @@
 	#include <stdio.h>
 	#include <cstring>
 
+
+	//no need to func(const string p). This is by value argument  
 	class asciiIO_t:public virtIO_t
 	{
 	public:
 
-		~asciiIO_t(){if(m_fp!=0) close();}
+		~asciiIO_t(){if(m_fp!=0) close();}//should be empty,explanation in base.h
 		asciiIO_t(const string& name, const char* mode):virtIO_t(name,mode){};
 		asciiIO_t(){this->m_fp=NULL;this->m_buff=NULL;}
+		//not necessary to call the base CTOR. if i don't call it- the def CTOR of 
+		//base class is acted , followed by the derive's CTOR action
 	
-
+		// changr nBytes according to type of argument
 		virtual asciiIO_t& operator<<(int nBytes) {return printI(nBytes,"%d");}
 		virtual asciiIO_t& operator>>(int& nBytes) {return scanI(nBytes,"%d");}
 		virtual asciiIO_t& operator<<(float nBytes) {return printI(nBytes,"%f");}
@@ -71,7 +75,7 @@
 	{
 		if(m_state != ok_e || !IsStatus4Read(this->m_mode)||m_fp!=NULL)
 		{
-			if(fscanf(m_fp,format.c_str(),nBytes)<nBytes)
+			if(fscanf(m_fp,format.c_str(),&nBytes)<nBytes)//put attention to & in fscanf
 			{
 				m_state = readErr_e;
 				throw(readErr_e);

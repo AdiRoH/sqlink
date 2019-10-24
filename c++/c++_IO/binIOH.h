@@ -7,7 +7,7 @@
 	{
 	public:
 
-		~binIO_t(){close();}
+		~binIO_t(){close();}//should be empty,explanation in base.h
 
 		binIO_t(const string& name, const char* mode):virtIO_t(name,mode){}
 		binIO_t(){this->m_fp=NULL;this->m_buff=NULL;}
@@ -43,6 +43,8 @@
 		template<class T> binIO_t& scanI(T nBytes);
 		template<class T> binIO_t& writeFunc(T nBytes);
 		template<class T> binIO_t& readFunc(T nBytes);
+		//assign operator
+		//copy constructor
 	};
 
 
@@ -73,7 +75,7 @@
 	template<class T> 
 	binIO_t& binIO_t::writeFunc(T nBytes)
 	{
-		if(m_state != ok_e ||!IsStatus4Write(this->m_mode))
+		if(m_state != ok_e ||!IsStatus4Write(this->m_mode))//||m_fp==0
 		{
 			fwrite(&nBytes, sizeof(nBytes), 1, m_fp);
 			this->m_pose = ftell(this->m_fp);
@@ -84,7 +86,7 @@
 	template<class T> 
 	binIO_t& binIO_t::readFunc(T nBytes)
 	{
-		if(m_state != ok_e ||!IsStatus4Write(this->m_mode))
+		if(m_state != ok_e ||!IsStatus4Write(this->m_mode))//||m_fp==0
 		{
 			fread(&nBytes, sizeof(nBytes), 1, this->m_fp);
 			this->m_pose = ftell(this->m_fp);

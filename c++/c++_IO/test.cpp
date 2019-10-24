@@ -18,20 +18,21 @@ int main()
 	virtIO_t *file=0;
 	long pose;
 
+	printMenu();
+	cin>>kindFile;	
+	cout<<"insert name of file"<<endl<<"insert mode"<<endl;//
+	cin>>fileName>>mode;
+
+	if(kindFile=='b')
+		file=new binIO_t(fileName,mode);
+	else if(kindFile=='a')
+		file=new asciiIO_t(fileName,mode);
+	
 
 	while(1)
 	{ 
 		
-		printMenu();
-		cin>>kindFile;	
-		cout<<"insert name of file"<<endl<<"insert mode"<<endl;
-		cin>>fileName>>mode;
-
-		if(kindFile=='b')
-			file=new binIO_t(fileName,mode);
-		else if(kindFile=='a')
-			file=new asciiIO_t(fileName,mode);
-		else continue;
+		
 
 		
 		menu();
