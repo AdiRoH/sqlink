@@ -8,12 +8,7 @@ int main()
 	{
     	func();
 
-	}catch(TException_t<float> Texc()){
-
-		Texc.setMessage("float was thrown");
-		Texc.setFileName("FILE.txt");
-		Texc.setlineNum(2);
-		Texc.setVarThrow(14.5);
+	}catch(TException_t<float> Texc){
 
        	std::cout<<"the object is: "<<Texc.getVarThrow()<<"\n";
       	std::cout<<"from file: "<<Texc.getFileName()<<"\n";
@@ -25,8 +20,8 @@ int main()
 }
 
 void func(){
-	 string str = __FILE__;
-    float i=5;
+	string str = __FILE__;
+	float i=5.5;
     
-    throw TException_t<float> ("float was thrown",str,__LINE__,i);
+    throw TException_t<float> ("float was thrown",__FILE__,__LINE__,i);
 }
