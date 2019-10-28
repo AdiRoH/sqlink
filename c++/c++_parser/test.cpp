@@ -1,14 +1,14 @@
 #include "ParserH.h"
-//#include "TokenizerH.h"
-//#include "AnalizerH.h"
+#include "TokenizerH.h"
+
 
 int main(int argc,char* argv[])
 {
-	int i=0;
-	for(i=0;i<argc;i++)
+	int i=1;
+	for(i=1;i<argc;i++)
 	{
-		Parser_t pr(argv[i]);
-		pr.getfunc();
+		Parser_t pr;
+		pr.parse(argv[i]);
 	}
 
 	return 0;
