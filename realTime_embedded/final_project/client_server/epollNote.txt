@@ -1,0 +1,24 @@
+/*epoll holds several file descriptors at the kernel.
+we want to work with lots of fd, so our actions will be synchronis
+For example:
+Read:
+we can read file after file with several file descriptors, in synchronous order.
+In network connection this is diffrent, because we don't know which connection is working...
+Suppose we have 10 networks connections- and the client wants to talk via the first connection.
+the server side can't forehead which connection is acted by the client side, in order to comunicate. 
+On the server side,the others file descriptors, that aren't act by the connections, will go to sleep.
+we want a mechanism for read, something like array of file descriptors, that manage that array. 
+This mechanism will let the server know which connection is acted, and sent to sleep the other connections.  
+
+The stages in our programming:
+1) create eppol's file descriptor 
+2) use epol ctl: add file descriptors to the epoll mechanism, which the eppol manages.
+3) use wait- it sends to sleep until i\o occured at one of the file descriptors . it returns the file description that woked up. 
+
+Epol mechanism hasn't context switch, it isn't based on multi threaded!
+This mechanism is more efficient than multi-threading...
+
+sleeping in write/read/epoll
+when using a write system call, the kernel take the buffer of the user, and insert it to a waiting queue.the user continues to run, without sleeping. The queue of the kernel is limited in size.If the queue is full, the os send the process to sleep. the user will go to sleep, until the queue has a place for the user. 
+
+When using epoll, if it announces that the user can write, that means that the waiting queue in the keenel is not full. There is a place in the queue for the user's buffer.*/
